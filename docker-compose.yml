@@ -1,0 +1,77 @@
+version: '3.3'
+services:
+  postgres:
+    image: 'postgres:latest'
+    container_name: "DB"
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=***
+      - POSTGRES_PASSWORD=***
+      - POSTGRES_DB=dbdocker
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    networks:
+      - db
+
+  traefik:
+    image: "traefik:v2.3"
+    container_name: "traefik"
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.websecure.address=:443"
+      - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
+      - "--certificatesresolvers.myresolver.acme.email=webmaster@***********.garden"
+      - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - "./letsencrypt:/letsencrypt"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    networks:
+      - proxy
+
+  web:
+    container_name: web
+    image: image: registry.gitlab.***.ch:45023/***/***-docker/hs20**/g*/repo_frontend
+    labels:
+       #- "providers.docker=true"
+      - "traefik.port=7777"
+      - "traefik.enable=true"
+      - "traefik.http.routers.web.rule=Host(`****.garden`)"
+      - "traefik.http.routers.web.entrypoints=websecure"
+      - "traefik.http.routers.web.tls.certresolver=myresolver"
+        #- "traefik.http.services.frontend.loadbalancer.server.port=7777"
+    networks:
+      - proxy
+      - backend
+    ports:
+      - "7777:7777"
+    depends_on:
+      - api
+
+  api:
+    container_name: api
+    image: registry.gitlab.***.ch:45023/***/***-docker/hs20**/g*/repo_backend
+    networks:
+      - backend
+      - db
+    ports:
+      - "9090:9090"
+    depends_on:
+      - postgres
+
+networks:
+   db:
+     driver: bridge
+     internal: true
+   backend:
+     driver: bridge
+     internal: true
+   proxy:
+volumes:
+  postgres:
