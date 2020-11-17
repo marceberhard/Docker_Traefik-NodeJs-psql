@@ -3,6 +3,8 @@
   Excercise and contents:
   -----Build docker images using GitLab CI / CD Pipelines. 
   -----Traefik v2 Proxy -> WebApp on 2 NodeJs with Port Forwarding. psql as db.
+  Prerequisite
+  -----Docker & Docker compose installed
 **** ------------------------------------------------------------------------- ****
 
 Contents
