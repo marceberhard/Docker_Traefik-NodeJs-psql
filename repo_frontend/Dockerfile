@@ -6,17 +6,17 @@ ARG API_HOST
 ENV API_HOST $API_HOST
 ENV PORT $PORT
 
-RUN addgroup --system cldinf && adduser --ingroup cldinf --system --shell /bin/false cldinf
-RUN mkdir -p /home/cldinf/ && chown -R cldinf:cldinf /home/cldinf/
+RUN addgroup --system *** && adduser --ingroup *** --system --shell /bin/false ***
+RUN mkdir -p /home/***/ && chown -R cldinf:cldinf /home/***/
 
-COPY . /home/cldinf/
-COPY package.json /home/cldinf
-RUN  chown -R cldinf:cldinf /home/cldinf/
+COPY . /home/***/
+COPY package.json /home/***
+RUN  chown -R ***:*** /home/***/
 
-WORKDIR /home/cldinf/
+WORKDIR /home/***/
 RUN npm install
 RUN npm audit fix
-USER cldinf
+USER ***
 
 EXPOSE 7777
 CMD [ "npm", "start" ]

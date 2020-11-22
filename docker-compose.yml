@@ -32,7 +32,7 @@ services:
       - "--entryPoints.web.http.redirections.entrypoint.permanent=true"
       - "--entrypoints.websecure.address=:443"
       - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
-      - "--certificatesresolvers.myresolver.acme.email=webmaster@sr-000119.network.garden"
+      - "--certificatesresolvers.myresolver.acme.email=webmaster@****.garden"
       - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
     ports:
       - "80:80"
@@ -46,13 +46,13 @@ services:
 
   frontend:
     container_name: frontend
-    image: registry.gitlab.ost.ch:45023/ins/cloudinf/kvm-docker/hs2020/g8/repo_frontend:latest
+    image: registry.gitlab.****.ch:***/***/***/**-docker/hs20**/g*/repo_frontend:latest
     restart: always
     labels:
       - "traefik.port=7777"
       - "traefik.enable=true"
       - "traefik.docker.network=ins_proxy"
-      - "traefik.http.routers.frontend.rule=Host(`sr-000119.network.garden`)"
+      - "traefik.http.routers.frontend.rule=Host(`*********.garden`)"
       - "traefik.http.routers.frontend.entrypoints=websecure"
       - "traefik.http.routers.frontend.tls.certresolver=myresolver"
       - "traefik.http.services.frontend.loadbalancer.server.port=7777"
@@ -70,7 +70,7 @@ services:
 
   backend:
     container_name: backend
-    image: registry.gitlab.ost.ch:45023/ins/cloudinf/kvm-docker/hs2020/g8/repo_backend:latest
+    image: registry.gitlab.****.ch:***/***/***/**-docker/hs20**/g*/backend:latest
     restart: always
     environment:
       - DB=${DB_CONNECT}

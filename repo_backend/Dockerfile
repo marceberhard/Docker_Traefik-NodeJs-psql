@@ -6,19 +6,19 @@ ARG DB
 ENV PORT $PORT
 ENV DB $DB
 
-RUN addgroup --system cldinf && adduser --ingroup cldinf --system --shell /bin/false cldinf
-RUN mkdir -p /home/cldinf/ && chown -R cldinf:cldinf /home/cldinf/
+RUN addgroup --system *** && adduser --ingroup *** --system --shell /bin/false ***
+RUN mkdir -p /home/***/ && chown -R ***:*** /home/***/
 
 
-COPY . /home/cldinf/
-COPY package.json /home/cldinf
-RUN  chown -R cldinf:cldinf /home/cldinf/
+COPY . /home/***/
+COPY package.json /home/***
+RUN  chown -R ***:*** /home/***/
 
-WORKDIR /home/cldinf/
+WORKDIR /home/***/
 RUN npm install
 RUN npm audit fix
 
-USER cldinf
+USER ***
 
 EXPOSE 9090
 CMD [ "npm", "start" ]
