@@ -1,15 +1,22 @@
 FROM node:8.16.1
-ENV API_HOST=api:9090
-ENV PORT=7777
 
-WORKDIR /home/node
+ARG PORT
+ARG API_HOST
 
-ARG NODE_ENV
-ENV NODE_ENV $NODE_ENV
+ENV API_HOST $API_HOST
+ENV PORT $PORT
 
-COPY package.json /home/node
+RUN addgroup --system cldinf && adduser --ingroup cldinf --system --shell /bin/false cldinf
+RUN mkdir -p /home/cldinf/ && chown -R cldinf:cldinf /home/cldinf/
+
+COPY . /home/cldinf/
+COPY package.json /home/cldinf
+RUN  chown -R cldinf:cldinf /home/cldinf/
+
+WORKDIR /home/cldinf/
 RUN npm install
-COPY . /home/node
-USER node
+RUN npm audit fix
+USER cldinf
+
 EXPOSE 7777
 CMD [ "npm", "start" ]
