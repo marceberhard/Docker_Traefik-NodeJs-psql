@@ -49,13 +49,12 @@ NodeJs frontend / backend tier
 
 NodeJs backend / api tier
 - no nodejs files not uploaded, insert your own.:)
-- port 7777 exposed, listens container Service listen to them, make sure your app does as well or reconfigure yours.
-- via port 9090 to backend NodeJs Server
-- Service registration for Traefik, no auto discovery 
+- port 9090 exposed, listens container Service listen to them, make sure your app does as well or reconfigure yours.
+- via port 5423 to DB Server
 -------------------------------------------------------------------------
 
 PostGres
-- latest image used
+- 13.1 image used
 - in this scenarie no data stored in db
 - make sure your db is fully persistent (docker)
 - port 5432 exposed for reachability from backend NodeJs
